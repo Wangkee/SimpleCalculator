@@ -15,6 +15,9 @@ public class calculator {
     }
 
     public Boolean correctExp(String s){
+        if(s.charAt(s.length()-1) == '+' || s.charAt(s.length()-1) == '-' || s.charAt(s.length()-1) == '*' || s.charAt(s.length()-1) == '/'){
+            return false;
+        }
         Deque<Character> deque = new LinkedList<>();
         char ch;
         for (int i = 0; i < s.length(); i++) {
@@ -42,17 +45,23 @@ public class calculator {
                 }else{
                     res = (long)Math.floor((double)jse.eval(expression));
                 }
+
                 if(res > Integer.MAX_VALUE){
                     return "overflow";
+                }else{
+                    return String.valueOf(res);
                 }
             } catch (ScriptException e) {
                 e.printStackTrace();
+                return "表达式错误";
             }
-            return String.valueOf(res);
         }
+        return "表达式错误";
+    }
 
-        else{
-            return "表达式错误";
-        }
+    public static void main(String[] args) {
+        calculator c = new calculator();
+        boolean res = c.correctExp("(24-4+1)+");
+        System.out.println(res);
     }
 }
